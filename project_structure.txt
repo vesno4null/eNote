@@ -1,0 +1,17 @@
+.
+├── AGENTS.md
+├── data
+│   └── icons
+├── editor_blocks.py
+├── LICENSE
+├── lsp_client.py
+├── main.py
+├── models.py
+├── parser.py
+├── project_structure.txt
+├── README.md
+├── scheduler.py
+├── storage.py
+└── window.py
+
+3 directories, 12 files
