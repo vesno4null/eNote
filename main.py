@@ -20,7 +20,7 @@ from window import NoteWindow
 class Application(Adw.Application):
     def __init__(self) -> None:
         super().__init__(
-            application_id="com.enote.app",
+            application_id="io.github.vesno4null.enote",
             flags=Gio.ApplicationFlags.FLAGS_NONE,
         )
         self.storage = Storage()

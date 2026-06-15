@@ -1,0 +1,48 @@
+id: io.github.vesno4null.enote
+runtime: org.gnome.Platform
+runtime-version: '47'
+sdk: org.gnome.Sdk
+command: enote
+
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+
+modules:
+  - name: python3-pyyaml
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --no-build-isolation --prefix=/app 'pyyaml' 2>&1
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/44/1a/ff606c0763fcb0b431b13cdb3db64529b09a6dc5020cad9f760a7e3298e4/PyYAML-6.0.2.tar.gz
+        sha256: d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff7bbc3e
+
+  - name: enote
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 enote.sh /app/bin/enote
+      - install -Dm644 main.py /app/share/enote/main.py
+      - install -Dm644 window.py /app/share/enote/window.py
+      - install -Dm644 storage.py /app/share/enote/storage.py
+      - install -Dm644 scheduler.py /app/share/enote/scheduler.py
+      - install -Dm644 editor_blocks.py /app/share/enote/editor_blocks.py
+      - install -Dm644 models.py /app/share/enote/models.py
+      - install -Dm644 parser.py /app/share/enote/parser.py
+      - install -Dm644 io.github.vesno4null.enote.desktop /app/share/applications/io.github.vesno4null.enote.desktop
+      - install -Dm644 io.github.vesno4null.enote.metainfo.xml /app/share/metainfo/io.github.vesno4null.enote.metainfo.xml
+      - install -Dm644 io.github.vesno4null.enote.svg /app/share/icons/hicolor/scalable/apps/io.github.vesno4null.enote.svg
+    sources:
+      - type: dir
+        path: ..
+      - type: file
+        path: enote.sh
+      - type: file
+        path: io.github.vesno4null.enote.desktop
+      - type: file
+        path: io.github.vesno4null.enote.metainfo.xml
+      - type: file
+        path: icons/io.github.vesno4null.enote.svg

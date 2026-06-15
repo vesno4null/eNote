@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=eNote
+Comment=Write notes and to-do lists
+Exec=enote
+Icon=io.github.vesno4null.enote
+Terminal=false
+Categories=Office;Utility;
+StartupNotify=true
+MimeType=text/plain;

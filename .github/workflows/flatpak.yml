@@ -1,0 +1,69 @@
+name: Flatpak
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-47
+      options: --privileged
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: enote.flatpak
+          manifest-path: flatpak/io.github.vesno4null.enote.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Generate signing key
+        run: |
+          mkdir -p _repo
+          gpg --batch --pinentry-mode loopback --passphrase '' \
+            --quick-gen-key \
+            "eNote Flatpak (https://github.com/vesno4null/eNote) <flatpak@enote.app>" \
+            ed25519 sign 0
+          gpg --armor --export flatpak@enote.app > _repo/enote.asc
+
+      - name: Create Flatpak repository
+        run: |
+          flatpak build-export \
+            --gpg-sign="flatpak@enote.app" \
+            --no-update-summary \
+            _repo \
+            build-dir
+
+          flatpak build-export \
+            --gpg-sign="flatpak@enote.app" \
+            _repo \
+            build-dir
+
+      - name: Generate .flatpakrepo
+        run: |
+          cat > _repo/enote.flatpakrepo <<EOF
+          [Flatpak Repo]
+          Title=eNote
+          Url=https://vesno4null.github.io/flatpak/enote
+          Homepage=https://github.com/vesno4null/eNote
+          Comment=Write notes and to-do lists
+          Description=A fast note-taking and to-do list application for Linux with rich text formatting, reminders, and code blocks.
+          Icon=https://vesno4null.github.io/flatpak/enote/enote.asc
+          GPGKey=$(base64 -w0 _repo/enote.asc)
+          EOF
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.FLATPAK_DEPLOY_KEY }}
+          external_repository: vesno4null/vesno4null.github.io
+          publish_dir: ./_repo
+          destination_dir: flatpak/enote
+          keep_files: true
+          user_name: github-actions
+          user_email: github-actions@github.com

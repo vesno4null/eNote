@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.vesno4null.enote</id>
+  <name>eNote</name>
+  <summary>Write notes and to-do lists</summary>
+  <developer id="com.enote">
+    <name>v4n_</name>
+  </developer>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A fast, intuitive note-taking and to-do list application for Linux.
+eNote supports rich text formatting, todo lists, reminders, priority levels,
+code blocks with syntax highlighting, and a clean block-based editor.</p>
+  </description>
+  <launchable type="desktop-id">io.github.vesno4null.enote.desktop</launchable>
+  <url type="homepage">https://github.com/vesno4null/eNote</url>
+  <url type="bugtracker">https://github.com/vesno4null/eNote/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The main editor with formatting toolbar</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.0" date="2026-01-01"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

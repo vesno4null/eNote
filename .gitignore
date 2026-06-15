@@ -10,3 +10,6 @@ venv/
 *~
 .DS_Store
 *.local/
+flatpak/build-dir/
+flatpak/repo/
+.flatpak-builder/
