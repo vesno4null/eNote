@@ -54,6 +54,8 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
+        env:
+          GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=accept-new
         with:
           deploy_key: ${{ secrets.FLATPAK_DEPLOY_KEY }}
           external_repository: vesno4null/vesno4null.github.io
