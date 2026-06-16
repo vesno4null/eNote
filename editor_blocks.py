@@ -1133,6 +1133,8 @@ class BlockEditor(Gtk.ListBox):
         idx = self._block_index(block)
         if idx < 0:
             return
+
+        if action == "split":
             self._split_block(idx, block, extra)
             self._notify_content_changed()
         elif action == "merge_up":
