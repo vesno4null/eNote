@@ -24,12 +24,11 @@ jobs:
 
       - name: Generate signing key
         run: |
-          mkdir -p _repo
           gpg --batch --pinentry-mode loopback --passphrase '' \
             --quick-gen-key \
             "eNote Flatpak (https://github.com/vesno4null/eNote) <flatpak@enote.app>" \
             ed25519 sign 0
-          gpg --armor --export flatpak@enote.app > _repo/enote.asc
+          gpg --armor --export flatpak@enote.app > enote.asc
 
       - name: Create Flatpak repository
         run: |
@@ -40,6 +39,7 @@ jobs:
 
       - name: Generate .flatpakrepo
         run: |
+          cp enote.asc _repo/
           cp flatpak/icons/io.github.vesno4null.enote.svg _repo/
           cat > _repo/enote.flatpakrepo <<EOF
           [Flatpak Repo]
