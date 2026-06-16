@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-47
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
       options: --privileged
 
     steps:
@@ -35,17 +35,12 @@ jobs:
         run: |
           flatpak build-export \
             --gpg-sign="flatpak@enote.app" \
-            --no-update-summary \
             _repo \
-            build-dir
-
-          flatpak build-export \
-            --gpg-sign="flatpak@enote.app" \
-            _repo \
-            build-dir
+            flatpak_app
 
       - name: Generate .flatpakrepo
         run: |
+          cp flatpak/icons/io.github.vesno4null.enote.svg _repo/
           cat > _repo/enote.flatpakrepo <<EOF
           [Flatpak Repo]
           Title=eNote
@@ -53,7 +48,7 @@ jobs:
           Homepage=https://github.com/vesno4null/eNote
           Comment=Write notes and to-do lists
           Description=A fast note-taking and to-do list application for Linux with rich text formatting, reminders, and code blocks.
-          Icon=https://vesno4null.github.io/flatpak/enote/enote.asc
+          Icon=https://vesno4null.github.io/flatpak/enote/io.github.vesno4null.enote.svg
           GPGKey=$(base64 -w0 _repo/enote.asc)
           EOF
 
